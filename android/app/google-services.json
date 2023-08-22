@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "261340545234",
+    "project_id": "hcrl-quizapp",
+    "storage_bucket": "hcrl-quizapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:261340545234:android:a8f919eb1a4dcc205f2d0b",
+        "android_client_info": {
+          "package_name": "com.example.hcrl_quizapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "261340545234-k9a073m40nvov0d5f86ogqan0qc3feb6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFo9Qvg3eYVKKO5gVrI1G4HZBVpUrHUGI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "261340545234-k9a073m40nvov0d5f86ogqan0qc3feb6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
