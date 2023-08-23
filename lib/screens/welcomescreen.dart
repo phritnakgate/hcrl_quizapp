@@ -12,6 +12,7 @@ class StartScreen extends StatefulWidget {
   //Variables
   static const lbColor = Color.fromRGBO(144, 224, 239, 1);
   static const mbColor = Color.fromRGBO(0, 180, 216, 1);
+  static const dbColor = Color.fromRGBO(3, 4, 94, 1);
   static const List<Object> txtstyle = [
     TextStyle(fontSize: 20, fontWeight: FontWeight.normal, color: lbColor),
     TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: mbColor),
@@ -48,7 +49,7 @@ class _StartScreenState extends State<StartScreen> {
               debugShowCheckedModeBanner: false,
               theme: ThemeData(fontFamily: 'Prompt'),
               home: Scaffold(
-                  backgroundColor: const Color.fromRGBO(3, 4, 94, 1),
+                  backgroundColor: StartScreen.dbColor,
                   body: Center(
                       child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,

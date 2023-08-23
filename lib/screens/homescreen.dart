@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:hcrl_quizapp/screens/quizscreen.dart';
 
 class HomeScreen extends StatefulWidget {
   //final User user;
@@ -42,7 +43,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         size: 26.0,
                       ),
                     )),
-                
               ]),
           body: StreamBuilder(
               stream: FirebaseFirestore.instance.collection('quiz').snapshots(),
@@ -56,10 +56,18 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemBuilder: (context, index) {
                     return ListTile(
                       title: Text(snapshot.data!.docs[index]['quiz_name']),
-                      subtitle: Text(snapshot.data!.docs[index]['quiz_desc']),
+                      subtitle: Text(
+                          "ID: ${snapshot.data!.docs[index].reference.id} Desc: ${snapshot.data!.docs[index]['quiz_desc']}"),
                       trailing: IconButton(
                         icon: const Icon(Icons.arrow_forward_ios_rounded),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => QuizScreen(
+                                      quizId: snapshot
+                                          .data!.docs[index].reference.id)));
+                        },
                       ),
                     );
                   },

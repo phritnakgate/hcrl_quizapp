@@ -12,6 +12,7 @@ dependencies:
   firebase_core: ^2.15.1
   flutter:
     sdk: flutter
+  percent_indicator: ^4.2.3
 
 
 dev_dependencies:
