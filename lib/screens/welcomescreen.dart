@@ -24,6 +24,8 @@ class StartScreen extends StatefulWidget {
 }
 
 class _StartScreenState extends State<StartScreen> {
+  
+  
   //Signin
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();

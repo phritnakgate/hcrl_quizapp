@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hcrl_quizapp/screens/summaryscreen.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+
+import '../widgets/answer_button.dart';
 
 class QuizScreen extends StatefulWidget {
   const QuizScreen({super.key, required this.quizId});
@@ -40,6 +43,46 @@ class _QuizScreenState extends State<QuizScreen> {
   List<bool> _isCorrect = [];
   int _totalQuestion = 0;
   int _currentQuestion = 1;
+  num _score = 0;
+  num _totalScore = 0;
+
+  void answerQuestion(Map<String, dynamic> m, List q, String selectedAnswer) {
+    setState(() {
+      if (q[_currentQuestion - 1]['correct_answer'] == selectedAnswer) {
+        _totalScore += q[_currentQuestion - 1]['points'];
+        _correct++;
+        _isCorrect.add(true);
+        _score += q[_currentQuestion - 1]['points'];
+        if (_currentQuestion == _totalQuestion) {
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => SummaryScreen(
+                qid: widget.quizId,
+                qdata: m,
+                correct: _correct,
+                totalScore: _totalScore,
+                score: _score,
+                isCorrect: _isCorrect,)));
+          return;
+        }
+      } else {
+        _totalScore += q[_currentQuestion - 1]['points'];
+        _isCorrect.add(false);
+        if (_currentQuestion == _totalQuestion) {
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => SummaryScreen(
+                qid: widget.quizId,
+                qdata: m,
+                correct: _correct,
+                totalScore: _totalScore,
+                score: _score,
+                isCorrect: _isCorrect,
+              )));
+          return;
+        }
+      }
+      _currentQuestion++;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +98,8 @@ class _QuizScreenState extends State<QuizScreen> {
           var quizData = snapshot.data!.data() as Map<String, dynamic>;
           var questions = quizData['quiz_questions'] as List<dynamic>;
           _totalQuestion = questions.length;
+          
+
           return Scaffold(
             backgroundColor: QuizScreen.dbColor,
             body: Center(
@@ -82,7 +127,15 @@ class _QuizScreenState extends State<QuizScreen> {
                       style: QuizScreen.txtstyle[0] as TextStyle,
                       textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 15),
+                    ...questions[_currentQuestion - 1]['choices'].map((answer) {
+                      return AnswerButton(
+                        answerText: answer,
+                        onTap: () {
+                          answerQuestion(quizData, questions, answer);
+                        },
+                      );
+                    }),
                   ]),
             ),
           );
