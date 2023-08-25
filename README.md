@@ -1,3 +1,3 @@
-# hcrl_quizapp
+# Quiz App
 
-A new Flutter project.
+A HCRL lab Flutter development app challenge.
