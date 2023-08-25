@@ -1,10 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hcrl_quizapp/screens/homescreen.dart';
-import 'package:hcrl_quizapp/screens/registerscreen.dart';
+//import 'package:hcrl_quizapp/screens/registerscreen.dart';
 
 class StartScreen extends StatefulWidget {
   const StartScreen({super.key});
@@ -24,8 +22,6 @@ class StartScreen extends StatefulWidget {
 }
 
 class _StartScreenState extends State<StartScreen> {
-  
-  
   //Signin
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -58,8 +54,8 @@ class _StartScreenState extends State<StartScreen> {
                     children: [
                       Image.asset(
                         'assets/images/quiz-logo.png',
-                        width: 200,
-                        height: 200,
+                        width: 125,
+                        height: 125,
                         color: StartScreen.mbColor,
                       ),
                       const SizedBox(height: 30),
@@ -103,6 +99,7 @@ class _StartScreenState extends State<StartScreen> {
                                   ),
                                 ),
                                 TextField(
+                                  obscureText: true,
                                   style: const TextStyle(color: Colors.white),
                                   controller: passwordController,
                                   decoration: const InputDecoration(

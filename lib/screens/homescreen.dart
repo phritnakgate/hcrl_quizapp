@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:hcrl_quizapp/screens/createquizscreen.dart';
 import 'package:hcrl_quizapp/screens/quizscreen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -50,7 +51,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 Padding(
                   padding: const EdgeInsets.only(right: 20.0),
                   child: GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const CreateQuizScreen()),
+                      );
+                    },
                     child: const Icon(
                       Icons.add,
                       size: 26.0,
@@ -75,17 +82,39 @@ class _HomeScreenState extends State<HomeScreen> {
                 if (snapshot.data == null) {
                   return const Center(child: CircularProgressIndicator());
                 }
+
+                final currentUser = FirebaseAuth.instance.currentUser!.email;
+                final quizDocs = snapshot.data!.docs.where((quizDoc) {
+                  final quizData = quizDoc.data();
+                  final bool quizVisibility = quizData['quiz_visibility'];
+                  final String quizOwner = quizData['quiz_owner'];
+                  if (quizVisibility) {
+                    return true; // Visible to all
+                  } else {
+                    return quizOwner ==
+                        currentUser; // Visible only to the owner
+                  }
+                }).toList();
+
+                print(quizDocs);
+
                 return ListView.builder(
                   scrollDirection: Axis.vertical,
-                  itemCount: snapshot.data!.docs.length,
+                  itemCount: quizDocs.length,
                   itemBuilder: (context, index) {
+                    final quizData = quizDocs[index].data();
                     return ListTile(
-                      title: Text(snapshot.data!.docs[index]['quiz_name'],
+                      title: Text(quizData['quiz_name'],
                           style: HomeScreen.txtstyle[1] as TextStyle),
-                      subtitle: Text(
-                        "${snapshot.data!.docs[index].reference.id} : ${snapshot.data!.docs[index]['quiz_desc']}",
-                        style: HomeScreen.txtstyle[0] as TextStyle,
-                      ),
+                      subtitle: quizData['quiz_visibility'] == true
+                          ? Text(
+                              "Public Quiz | ${quizData['quiz_desc']}",
+                              style: HomeScreen.txtstyle[0] as TextStyle,
+                            )
+                          : Text(
+                              "Private Quiz | ${quizData['quiz_desc']}",
+                              style: HomeScreen.txtstyle[0] as TextStyle,
+                            ),
                       trailing: IconButton(
                         icon: const Icon(Icons.arrow_forward_ios_rounded),
                         onPressed: () {
