@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hcrl_quizapp/screens/homescreen.dart';
+import 'package:hcrl_quizapp/screens/questionsscreen.dart';
 
 class CreateQuizScreen extends StatefulWidget {
   const CreateQuizScreen({super.key});
@@ -121,11 +122,12 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
                         CreateQuizScreen.noQ.text.isEmpty) {
                       print("Please fill out all fields.");
                     } else {
-                      CreateQuizScreen.db.add(newQuiz);
                       Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const HomeScreen()))
+                                  builder: (context) => QuestionsScreen(
+                                      question: newQuiz,
+                                      noQ: int.parse(CreateQuizScreen.noQ.text))))
                           .then((value) => {
                                 CreateQuizScreen.qname.clear(),
                                 CreateQuizScreen.qdesc.clear(),
